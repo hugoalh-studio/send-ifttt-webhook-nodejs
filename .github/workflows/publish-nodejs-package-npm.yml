@@ -1,0 +1,14 @@
+name: "Publish NodeJS Package - NPM"
+on:
+  release:
+    types:
+      - "published"
+defaults:
+  run:
+    shell: "pwsh"
+jobs:
+  main:
+    name: "Main"
+    uses: "hugoalh/hugoalh/.github/workflows/publish-nodejs-package-npm.yml@main"
+    secrets:
+      NPM_TOKEN: "${{secrets.NPM_TOKEN}}"
