@@ -1,15 +1,11 @@
-import { readFile as fsReadFile } from "node:fs/promises";
-import { dirname as pathDirname, join as pathJoin } from "node:path";
-import { fileURLToPath } from "node:url";
 import nodeFetch, { type RequestInit, type Response } from "node-fetch";
-const packageMeta = JSON.parse(await fsReadFile(pathJoin(pathDirname(fileURLToPath(import.meta.url)), "../package.json"), { encoding: "utf8" }));
 const iftttMakerEventNameRegExp = /^[\dA-Za-z_]+$/u;
 const iftttMakerURLRegExp = /^(?:https:\/\/maker\.ifttt\.com\/use\/)?(?<key>(?:[\dA-Za-z][\dA-Za-z_-]*)?[\dA-Za-z])$/u;
 const iftttWebhookSendInit: RequestInit = {
 	follow: 1,
 	headers: {
 		"Content-Type": "application/json",
-		"User-Agent": `NodeJS/${process.versions.node}-${process.platform}-${process.arch} SendIFTTTWebhook/${packageMeta.version}`
+		"User-Agent": `NodeJS/${process.versions.node}-${process.platform}-${process.arch} SendIFTTTWebhook/1.0.0`
 	},
 	method: "POST",
 	redirect: "follow"
