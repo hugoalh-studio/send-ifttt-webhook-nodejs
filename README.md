@@ -18,6 +18,10 @@
 
 A NodeJS module to send IFTTT webhook.
 
+> **🔗 Other Edition:**
+>
+> - [Deno](https://github.com/hugoalh-studio/send-ifttt-webhook-deno)
+
 ## 📚 Documentation
 
 ### Getting Started
