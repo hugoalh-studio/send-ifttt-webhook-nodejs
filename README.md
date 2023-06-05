@@ -44,17 +44,17 @@ import IFTTTWebhook from "@hugoalh/send-ifttt-webhook";// Default Import (Class 
     .send(options: IFTTTWebhookSendOptions = {}): Promise<Response>;
     .sendArbitrary(options: Omit<IFTTTWebhookSendOptions, "arbitrary"> = {}): Promise<Response>;
 
-  IFTTTWebhook.send(key: string, options: IFTTTWebhookSendOptions = {}): Promise<Response>;
-  IFTTTWebhook.sendArbitrary(key: string, options: Omit<IFTTTWebhookSendOptions, "arbitrary"> = {}): Promise<Response>;
+  IFTTTWebhook.send(key: string, eventName: string, options: Omit<IFTTTWebhookSendOptions, "eventName"> = {}): Promise<Response>;
+  IFTTTWebhook.sendArbitrary(key: string, eventName: string, options: Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName"> = {}): Promise<Response>;
   ```
 
 #### Function
 
 - ```ts
-  send(key: string, options: IFTTTWebhookSendOptions = {}): Promise<Response>;
+  send(key: string, eventName: string, options: Omit<IFTTTWebhookSendOptions, "eventName"> = {}): Promise<Response>;
   ```
 - ```ts
-  sendArbitrary(key: string, options: Omit<IFTTTWebhookSendOptions, "arbitrary"> = {}): Promise<Response>;
+  sendArbitrary(key: string, eventName: string, options: Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName"> = {}): Promise<Response>;
   ```
 
 #### Interface / Type
