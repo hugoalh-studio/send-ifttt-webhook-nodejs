@@ -42,7 +42,7 @@ declare class IFTTTWebhook {
     /**
      * @constructor
      * @description Create a new IFTTT webhook instance.
-     * @param {string} key IFTTT webhook key/URL. (Format: `"ifttt-webhook-key"` or `"https://maker.ifttt.com/use/ifttt-webhook-key"`)
+     * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
      * @param {IFTTTWebhookConstructorOptions} [options={}] Options.
      */
     constructor(key: string, options?: IFTTTWebhookConstructorOptions);
@@ -63,36 +63,40 @@ declare class IFTTTWebhook {
     /**
      * @method send
      * @description Send an IFTTT webhook.
-     * @param {string} key IFTTT webhook key/URL. (Format: `"ifttt-webhook-key"` or `"https://maker.ifttt.com/use/ifttt-webhook-key"`)
-     * @param {IFTTTWebhookSendOptions} [options={}] Options.
+     * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
+     * @param {string} eventName Event name.
+     * @param {Omit<IFTTTWebhookSendOptions, "eventName">} [options={}] Options.
      * @returns {Promise<Response>} Response.
      */
-    static send(key: string, options?: IFTTTWebhookSendOptions): Promise<Response>;
+    static send(key: string, eventName: string, options?: Omit<IFTTTWebhookSendOptions, "eventName">): Promise<Response>;
     /**
      * @method sendArbitrary
      * @description Send an IFTTT webhook with arbitrary payload.
-     * @param {string} key IFTTT webhook key/URL. (Format: `"ifttt-webhook-key"` or `"https://maker.ifttt.com/use/ifttt-webhook-key"`)
-     * @param {Omit<IFTTTWebhookSendOptions, "arbitrary">} [options={}] Options.
+     * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
+     * @param {string} eventName Event name.
+     * @param {Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName">} [options={}] Options.
      * @returns {Promise<Response>} Response.
      */
-    static sendArbitrary(key: string, options?: Omit<IFTTTWebhookSendOptions, "arbitrary">): Promise<Response>;
+    static sendArbitrary(key: string, eventName: string, options?: Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName">): Promise<Response>;
 }
 /**
  * @function send
  * @description Send an IFTTT webhook.
- * @param {string} key IFTTT webhook key/URL. (Format: `"ifttt-webhook-key"` or `"https://maker.ifttt.com/use/ifttt-webhook-key"`)
- * @param {IFTTTWebhookSendOptions} [options={}] Options.
+ * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
+ * @param {string} eventName Event name.
+ * @param {Omit<IFTTTWebhookSendOptions, "eventName">} [options={}] Options.
  * @returns {Promise<Response>} Response.
  */
-declare function send(key: string, options?: IFTTTWebhookSendOptions): Promise<Response>;
+declare function send(key: string, eventName: string, options?: Omit<IFTTTWebhookSendOptions, "eventName">): Promise<Response>;
 /**
  * @function sendArbitrary
  * @description Send an IFTTT webhook with arbitrary payload.
- * @param {string} key IFTTT webhook key/URL. (Format: `"ifttt-webhook-key"` or `"https://maker.ifttt.com/use/ifttt-webhook-key"`)
- * @param {Omit<IFTTTWebhookSendOptions, "arbitrary">} [options={}] Options.
+ * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
+ * @param {string} eventName Event name.
+ * @param {Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName">} [options={}] Options.
  * @returns {Promise<Response>} Response.
  */
-declare function sendArbitrary(key: string, options?: Omit<IFTTTWebhookSendOptions, "arbitrary">): Promise<Response>;
+declare function sendArbitrary(key: string, eventName: string, options?: Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName">): Promise<Response>;
 export default IFTTTWebhook;
 export { IFTTTWebhook, send, sendArbitrary, type IFTTTWebhookConstructorOptions, type IFTTTWebhookSendOptions };
 //# sourceMappingURL=main.d.ts.map
