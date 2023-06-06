@@ -5,7 +5,7 @@ const iftttWebhookSendInit: RequestInit = {
 	follow: 1,
 	headers: {
 		"Content-Type": "application/json",
-		"User-Agent": `NodeJS/${process.versions.node}-${process.platform}-${process.arch} SendIFTTTWebhook/1.0.0`
+		"User-Agent": `NodeJS/${process.versions.node}-${process.platform}-${process.arch} SendIFTTTWebhook/0.1.0`
 	},
 	method: "POST",
 	redirect: "follow"
