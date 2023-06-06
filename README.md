@@ -65,7 +65,7 @@ import IFTTTWebhook from "@hugoalh/send-ifttt-webhook";// Default Import (Class 
 
 - ```ts
   interface IFTTTWebhookConstructorOptions {
-    /* Define a default value of whether to trigger with an arbitrary payload. */
+    /* Define a default value of whether to send with an arbitrary payload. */
     arbitraryDefault: boolean = false;
     /* Define a default value of the event name. */
     eventNameDefault?: string;
@@ -73,7 +73,7 @@ import IFTTTWebhook from "@hugoalh/send-ifttt-webhook";// Default Import (Class 
   ```
 - ```ts
   interface IFTTTWebhookSendOptions {
-    /* Whether to trigger with an arbitrary payload. */
+    /* Whether to send with an arbitrary payload. */
     arbitrary: boolean = arbitraryDefault;
     /* Event name. */
     eventName: string = eventNameDefault;

@@ -2,7 +2,7 @@ import { type Response } from "node-fetch";
 interface IFTTTWebhookConstructorOptions {
     /**
      * @property arbitraryDefault
-     * @description Define a default value of whether to trigger with an arbitrary payload.
+     * @description Define a default value of whether to send with an arbitrary payload.
      * @default false
      */
     arbitraryDefault?: boolean;
@@ -16,7 +16,7 @@ interface IFTTTWebhookConstructorOptions {
 interface IFTTTWebhookSendOptions {
     /**
      * @property arbitrary
-     * @description Whether to trigger with an arbitrary payload.
+     * @description Whether to send with an arbitrary payload.
      * @default arbitraryDefault
      */
     arbitrary?: boolean;
