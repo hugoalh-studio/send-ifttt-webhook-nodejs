@@ -21,6 +21,7 @@ A NodeJS module to send IFTTT webhook.
 > **🔗 Other Edition:**
 >
 > - [Deno](https://github.com/hugoalh-studio/send-ifttt-webhook-deno)
+> - [GitHub Action](https://github.com/hugoalh-studio/send-ifttt-webhook-ghaction)
 
 ## 📚 Documentation
 
@@ -35,7 +36,7 @@ npm install @hugoalh/send-ifttt-webhook
 ```js
 /* Either */
 import { ... } from "@hugoalh/send-ifttt-webhook";// Named Import
-import * as iftttWebhook from "@hugoalh/send-ifttt-webhook";// Namespace Import
+import * as sendIFTTTWebhook from "@hugoalh/send-ifttt-webhook";// Namespace Import
 import IFTTTWebhook from "@hugoalh/send-ifttt-webhook";// Default Import (Class `IFTTTWebhook`)
 ```
 
