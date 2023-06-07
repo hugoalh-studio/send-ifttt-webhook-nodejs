@@ -95,6 +95,9 @@ class IFTTTWebhook {
         if (typeof eventName === "undefined") {
             throw new Error(`Event name is not defined and does not have default value!`);
         }
+        if (!(typeof options.payload === "object" && options.payload !== null) && typeof options.payload !== "undefined") {
+            throw new TypeError(`Argument \`options.payload\` must be type of object or undefined!`);
+        }
         return nodeFetch(`https://maker.ifttt.com/trigger/${eventName}${arbitrary ? "/json" : ""}/with/key/${__classPrivateFieldGet(this, _IFTTTWebhook_key, "f")}`, {
             body: JSON.stringify((_a = options.payload) !== null && _a !== void 0 ? _a : {}),
             ...iftttWebhookSendInit
