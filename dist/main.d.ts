@@ -1,4 +1,6 @@
 import { type Response } from "node-fetch";
+declare const iftttMakerEventNameRegExp: RegExp;
+declare const iftttMakerURLRegExp: RegExp;
 interface IFTTTWebhookConstructorOptions {
     /**
      * @property arbitraryDefault
@@ -80,23 +82,23 @@ declare class IFTTTWebhook {
     static sendArbitrary(key: string, eventName: string, options?: Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName">): Promise<Response>;
 }
 /**
- * @function send
+ * @function sendIFTTTWebhook
  * @description Send an IFTTT webhook.
  * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
  * @param {string} eventName Event name.
  * @param {Omit<IFTTTWebhookSendOptions, "eventName">} [options={}] Options.
  * @returns {Promise<Response>} Response.
  */
-declare function send(key: string, eventName: string, options?: Omit<IFTTTWebhookSendOptions, "eventName">): Promise<Response>;
+declare function sendIFTTTWebhook(key: string, eventName: string, options?: Omit<IFTTTWebhookSendOptions, "eventName">): Promise<Response>;
 /**
- * @function sendArbitrary
+ * @function sendIFTTTWebhookArbitrary
  * @description Send an IFTTT webhook with arbitrary payload.
  * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
  * @param {string} eventName Event name.
  * @param {Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName">} [options={}] Options.
  * @returns {Promise<Response>} Response.
  */
-declare function sendArbitrary(key: string, eventName: string, options?: Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName">): Promise<Response>;
+declare function sendIFTTTWebhookArbitrary(key: string, eventName: string, options?: Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName">): Promise<Response>;
 export default IFTTTWebhook;
-export { IFTTTWebhook, send, sendArbitrary, type IFTTTWebhookConstructorOptions, type IFTTTWebhookSendOptions };
+export { iftttMakerEventNameRegExp, iftttMakerURLRegExp, IFTTTWebhook, sendIFTTTWebhook, sendIFTTTWebhookArbitrary, type IFTTTWebhookConstructorOptions, type IFTTTWebhookSendOptions };
 //# sourceMappingURL=main.d.ts.map

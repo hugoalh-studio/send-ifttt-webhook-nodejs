@@ -146,32 +146,32 @@ class IFTTTWebhook {
 }
 _IFTTTWebhook_arbitraryDefault = new WeakMap(), _IFTTTWebhook_eventNameDefault = new WeakMap(), _IFTTTWebhook_key = new WeakMap();
 /**
- * @function send
+ * @function sendIFTTTWebhook
  * @description Send an IFTTT webhook.
  * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
  * @param {string} eventName Event name.
  * @param {Omit<IFTTTWebhookSendOptions, "eventName">} [options={}] Options.
  * @returns {Promise<Response>} Response.
  */
-function send(key, eventName, options = {}) {
+function sendIFTTTWebhook(key, eventName, options = {}) {
     return new IFTTTWebhook(key).send({
         ...options,
         eventName
     });
 }
 /**
- * @function sendArbitrary
+ * @function sendIFTTTWebhookArbitrary
  * @description Send an IFTTT webhook with arbitrary payload.
  * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
  * @param {string} eventName Event name.
  * @param {Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName">} [options={}] Options.
  * @returns {Promise<Response>} Response.
  */
-function sendArbitrary(key, eventName, options = {}) {
+function sendIFTTTWebhookArbitrary(key, eventName, options = {}) {
     return new IFTTTWebhook(key).sendArbitrary({
         ...options,
         eventName
     });
 }
 export default IFTTTWebhook;
-export { IFTTTWebhook, send, sendArbitrary };
+export { iftttMakerEventNameRegExp, iftttMakerURLRegExp, IFTTTWebhook, sendIFTTTWebhook, sendIFTTTWebhookArbitrary };

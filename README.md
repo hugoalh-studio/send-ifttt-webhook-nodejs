@@ -56,10 +56,10 @@ import IFTTTWebhook from "@hugoalh/send-ifttt-webhook";// Default Import (Class 
 #### Function
 
 - ```ts
-  send(key: string, eventName: string, options: Omit<IFTTTWebhookSendOptions, "eventName"> = {}): Promise<Response>;
+  sendIFTTTWebhook(key: string, eventName: string, options: Omit<IFTTTWebhookSendOptions, "eventName"> = {}): Promise<Response>;
   ```
 - ```ts
-  sendArbitrary(key: string, eventName: string, options: Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName"> = {}): Promise<Response>;
+  sendIFTTTWebhookArbitrary(key: string, eventName: string, options: Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName"> = {}): Promise<Response>;
   ```
 
 #### Interface / Type
