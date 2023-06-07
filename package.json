@@ -1,6 +1,6 @@
 {
 	"name": "@hugoalh/send-ifttt-webhook",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "A module to send IFTTT webhook.",
 	"keywords": [
 		"ifttt",

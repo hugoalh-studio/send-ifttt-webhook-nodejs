@@ -9,7 +9,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _IFTTTWebhook_arbitraryDefault, _IFTTTWebhook_eventNameDefault, _IFTTTWebhook_key;
+var _IFTTTWebhook_instances, _IFTTTWebhook_key, _IFTTTWebhook_sender;
 import nodeFetch from "node-fetch";
 const iftttMakerEventNameRegExp = /^[\dA-Za-z_]+$/u;
 const iftttMakerURLRegExp = /^(?:https:\/\/maker\.ifttt\.com\/use\/)?(?<key>(?:[\dA-Za-z][\dA-Za-z_-]*)?[\dA-Za-z])$/u;
@@ -17,18 +17,21 @@ const iftttWebhookSendInit = {
     follow: 1,
     headers: {
         "Content-Type": "application/json",
-        "User-Agent": `NodeJS/${process.versions.node}-${process.platform}-${process.arch} SendIFTTTWebhook/0.1.0`
+        "User-Agent": `NodeJS/${process.versions.node}-${process.platform}-${process.arch} SendIFTTTWebhook/0.2.0`
     },
     method: "POST",
     redirect: "follow"
 };
 /**
  * @access private
- * @function $checkEventNamePattern
+ * @function $checkEventName
  * @param {string} value
  * @returns {void}
  */
-function $checkEventNamePattern(value) {
+function $checkEventName(value) {
+    if (typeof value !== "string") {
+        throw new TypeError(`Argument \`eventName\` must be type of string!`);
+    }
     if (!iftttMakerEventNameRegExp.test(value)) {
         throw new SyntaxError(`\`${value}\` is not a valid IFTTT webhook event name!`);
     }
@@ -42,11 +45,9 @@ class IFTTTWebhook {
      * @constructor
      * @description Create a new IFTTT webhook instance.
      * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
-     * @param {IFTTTWebhookConstructorOptions} [options={}] Options.
      */
-    constructor(key, options = {}) {
-        _IFTTTWebhook_arbitraryDefault.set(this, false);
-        _IFTTTWebhook_eventNameDefault.set(this, void 0);
+    constructor(key) {
+        _IFTTTWebhook_instances.add(this);
         _IFTTTWebhook_key.set(this, void 0);
         if (typeof key !== "string") {
             throw new TypeError(`Argument \`key\` must be type of string!`);
@@ -55,64 +56,41 @@ class IFTTTWebhook {
             throw new SyntaxError(`Argument \`key\` is not a valid IFTTT webhook key!`);
         }
         __classPrivateFieldSet(this, _IFTTTWebhook_key, key.match(iftttMakerURLRegExp).groups.key, "f");
-        if (typeof options.arbitraryDefault === "boolean") {
-            __classPrivateFieldSet(this, _IFTTTWebhook_arbitraryDefault, options.arbitraryDefault, "f");
-        }
-        else if (typeof options.arbitraryDefault !== "undefined") {
-            throw new TypeError(`Argument \`options.arbitraryDefault\` must be type of boolean or undefined!`);
-        }
-        if (typeof options.eventNameDefault === "string") {
-            $checkEventNamePattern(options.eventNameDefault);
-            __classPrivateFieldSet(this, _IFTTTWebhook_eventNameDefault, options.eventNameDefault, "f");
-        }
-        else if (typeof options.eventNameDefault !== "undefined") {
-            throw new TypeError(`Argument \`options.eventNameDefault\` must be type of string or undefined!`);
-        }
     }
     /**
      * @method send
      * @description Send an IFTTT webhook.
-     * @param {IFTTTWebhookSendOptions} [options={}] Options.
+     * @param {string} eventName Event name.
+     * @param {IFTTTWebhookStandardPayload} [payload={}] Payload.
      * @returns {Promise<Response>} Response.
      */
-    send(options = {}) {
-        var _a;
-        let arbitrary = __classPrivateFieldGet(this, _IFTTTWebhook_arbitraryDefault, "f");
-        let eventName = __classPrivateFieldGet(this, _IFTTTWebhook_eventNameDefault, "f");
-        if (typeof options.arbitrary === "boolean") {
-            arbitrary = options.arbitrary;
+    send(eventName, payload = {}) {
+        $checkEventName(eventName);
+        if (!(typeof payload === "object" && payload !== null)) {
+            throw new TypeError(`Argument \`payload\` must be type of object or undefined!`);
         }
-        else if (typeof options.arbitrary !== "undefined") {
-            throw new TypeError(`Argument \`options.arbitrary\` must be type of boolean or undefined!`);
-        }
-        if (typeof options.eventName === "string") {
-            $checkEventNamePattern(options.eventName);
-            eventName = options.eventName;
-        }
-        else if (typeof options.eventName !== "undefined") {
-            throw new TypeError(`Argument \`options.eventName\` must be type of string or undefined!`);
-        }
-        if (typeof eventName === "undefined") {
-            throw new Error(`Event name is not defined and does not have default value!`);
-        }
-        if (!(typeof options.payload === "object" && options.payload !== null) && typeof options.payload !== "undefined") {
-            throw new TypeError(`Argument \`options.payload\` must be type of object or undefined!`);
-        }
-        return nodeFetch(`https://maker.ifttt.com/trigger/${eventName}${arbitrary ? "/json" : ""}/with/key/${__classPrivateFieldGet(this, _IFTTTWebhook_key, "f")}`, {
-            body: JSON.stringify((_a = options.payload) !== null && _a !== void 0 ? _a : {}),
-            ...iftttWebhookSendInit
+        return __classPrivateFieldGet(this, _IFTTTWebhook_instances, "m", _IFTTTWebhook_sender).call(this, {
+            arbitrary: false,
+            eventName,
+            payload
         });
     }
     /**
      * @method sendArbitrary
      * @description Send an IFTTT webhook with arbitrary payload.
-     * @param {Omit<IFTTTWebhookSendOptions, "arbitrary">} [options={}] Options.
+     * @param {string} eventName Event name.
+     * @param {object} [payload={}] Payload.
      * @returns {Promise<Response>} Response.
      */
-    sendArbitrary(options = {}) {
-        return this.send({
-            ...options,
-            arbitrary: true
+    sendArbitrary(eventName, payload = {}) {
+        $checkEventName(eventName);
+        if (!(typeof payload === "object" && payload !== null)) {
+            throw new TypeError(`Argument \`payload\` must be type of object or undefined!`);
+        }
+        return __classPrivateFieldGet(this, _IFTTTWebhook_instances, "m", _IFTTTWebhook_sender).call(this, {
+            arbitrary: true,
+            eventName,
+            payload
         });
     }
     /**
@@ -120,58 +98,51 @@ class IFTTTWebhook {
      * @description Send an IFTTT webhook.
      * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
      * @param {string} eventName Event name.
-     * @param {Omit<IFTTTWebhookSendOptions, "eventName">} [options={}] Options.
+     * @param {IFTTTWebhookStandardPayload} [payload={}] Payload.
      * @returns {Promise<Response>} Response.
      */
-    static send(key, eventName, options = {}) {
-        return new this(key).send({
-            ...options,
-            eventName
-        });
+    static send(key, eventName, payload = {}) {
+        return new this(key).send(eventName, payload);
     }
     /**
      * @method sendArbitrary
      * @description Send an IFTTT webhook with arbitrary payload.
      * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
      * @param {string} eventName Event name.
-     * @param {Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName">} [options={}] Options.
+     * @param {object} [payload={}] Payload.
      * @returns {Promise<Response>} Response.
      */
-    static sendArbitrary(key, eventName, options = {}) {
-        return new this(key).sendArbitrary({
-            ...options,
-            eventName
-        });
+    static sendArbitrary(key, eventName, payload = {}) {
+        return new this(key).sendArbitrary(eventName, payload);
     }
 }
-_IFTTTWebhook_arbitraryDefault = new WeakMap(), _IFTTTWebhook_eventNameDefault = new WeakMap(), _IFTTTWebhook_key = new WeakMap();
+_IFTTTWebhook_key = new WeakMap(), _IFTTTWebhook_instances = new WeakSet(), _IFTTTWebhook_sender = function _IFTTTWebhook_sender({ arbitrary = false, eventName, payload }) {
+    return nodeFetch(`https://maker.ifttt.com/trigger/${eventName}${arbitrary ? "/json" : ""}/with/key/${__classPrivateFieldGet(this, _IFTTTWebhook_key, "f")}`, {
+        body: JSON.stringify(payload),
+        ...iftttWebhookSendInit
+    });
+};
 /**
  * @function sendIFTTTWebhook
  * @description Send an IFTTT webhook.
  * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
  * @param {string} eventName Event name.
- * @param {Omit<IFTTTWebhookSendOptions, "eventName">} [options={}] Options.
+ * @param {IFTTTWebhookStandardPayload} [payload={}] Payload.
  * @returns {Promise<Response>} Response.
  */
-function sendIFTTTWebhook(key, eventName, options = {}) {
-    return new IFTTTWebhook(key).send({
-        ...options,
-        eventName
-    });
+function sendIFTTTWebhook(key, eventName, payload = {}) {
+    return new IFTTTWebhook(key).send(eventName, payload);
 }
 /**
  * @function sendIFTTTWebhookArbitrary
  * @description Send an IFTTT webhook with arbitrary payload.
  * @param {string} key Key (`"ifttt-webhook-key"`), or URL (`"https://maker.ifttt.com/use/ifttt-webhook-key"`).
  * @param {string} eventName Event name.
- * @param {Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName">} [options={}] Options.
+ * @param {object} [payload={}] Payload.
  * @returns {Promise<Response>} Response.
  */
-function sendIFTTTWebhookArbitrary(key, eventName, options = {}) {
-    return new IFTTTWebhook(key).sendArbitrary({
-        ...options,
-        eventName
-    });
+function sendIFTTTWebhookArbitrary(key, eventName, payload = {}) {
+    return new IFTTTWebhook(key).sendArbitrary(eventName, payload);
 }
 export default IFTTTWebhook;
 export { iftttMakerEventNameRegExp, iftttMakerURLRegExp, IFTTTWebhook, sendIFTTTWebhook, sendIFTTTWebhookArbitrary };

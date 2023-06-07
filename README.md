@@ -45,46 +45,35 @@ import IFTTTWebhook from "@hugoalh/send-ifttt-webhook";// Default Import (Class 
 #### Class
 
 - ```ts
-  new IFTTTWebhook(key: string, options: IFTTTWebhookConstructorOptions = {}): IFTTTWebhook;
-    .send(options: IFTTTWebhookSendOptions = {}): Promise<Response>;
-    .sendArbitrary(options: Omit<IFTTTWebhookSendOptions, "arbitrary"> = {}): Promise<Response>;
+  new IFTTTWebhook(key: string): IFTTTWebhook;
+    .send(eventName: string, payload: IFTTTWebhookStandardPayload = {}): Promise<Response>;
+    .sendArbitrary(eventName: string, payload: object = {}): Promise<Response>;
 
-  IFTTTWebhook.send(key: string, eventName: string, options: Omit<IFTTTWebhookSendOptions, "eventName"> = {}): Promise<Response>;
-  IFTTTWebhook.sendArbitrary(key: string, eventName: string, options: Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName"> = {}): Promise<Response>;
+  IFTTTWebhook.send(key: string, eventName: string, payload: IFTTTWebhookStandardPayload = {}): Promise<Response>;
+  IFTTTWebhook.sendArbitrary(key: string, eventName: string, payload: object = {}): Promise<Response>;
   ```
 
 #### Function
 
 - ```ts
-  sendIFTTTWebhook(key: string, eventName: string, options: Omit<IFTTTWebhookSendOptions, "eventName"> = {}): Promise<Response>;
+  sendIFTTTWebhook(key: string, eventName: string, payload: IFTTTWebhookStandardPayload = {}): Promise<Response>;
   ```
 - ```ts
-  sendIFTTTWebhookArbitrary(key: string, eventName: string, options: Omit<IFTTTWebhookSendOptions, "arbitrary" | "eventName"> = {}): Promise<Response>;
+  sendIFTTTWebhookArbitrary(key: string, eventName: string, payload: object = {}): Promise<Response>;
   ```
 
 #### Interface / Type
 
 - ```ts
-  interface IFTTTWebhookConstructorOptions {
-    /* Define a default value of whether to send with an arbitrary payload. */
-    arbitraryDefault: boolean = false;
-    /* Define a default value of the event name. */
-    eventNameDefault?: string;
-  }
-  ```
-- ```ts
-  interface IFTTTWebhookSendOptions {
-    /* Whether to send with an arbitrary payload. */
-    arbitrary: boolean = arbitraryDefault;
-    /* Event name. */
-    eventName: string = eventNameDefault;
-    /* Payload. */
-    payload: object = {};
-  }
+  type IFTTTWebhookStandardPayload = {
+    value1?: string;
+    value2?: string;
+    value3?: string;
+  };
   ```
 
 ### Example
 
 ```js
-new IFTTTWebhook("my-ifttt-webhook-key", { eventNameDefault: "test" }).sendArbitrary({ payload: { message: "Hello, world!" } })
+new IFTTTWebhook("my-ifttt-webhook-key").sendArbitrary("test", { message: "Hello, world!" });
 ```
