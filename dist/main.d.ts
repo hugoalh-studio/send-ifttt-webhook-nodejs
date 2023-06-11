@@ -1,9 +1,9 @@
 import { type Response } from "node-fetch";
-type IFTTTWebhookStandardPayload = {
+interface IFTTTWebhookStandardPayload {
     value1?: string;
     value2?: string;
     value3?: string;
-};
+}
 declare const iftttMakerEventNameRegExp: RegExp;
 declare const iftttMakerURLRegExp: RegExp;
 /**

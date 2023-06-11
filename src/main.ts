@@ -1,9 +1,9 @@
 import nodeFetch, { type RequestInit, type Response } from "node-fetch";
-type IFTTTWebhookStandardPayload = {
+interface IFTTTWebhookStandardPayload {
 	value1?: string;
 	value2?: string;
 	value3?: string;
-};
+}
 const iftttMakerEventNameRegExp = /^[\dA-Za-z_]+$/u;
 const iftttMakerURLRegExp = /^(?:https:\/\/maker\.ifttt\.com\/use\/)?(?<key>(?:[\dA-Za-z][\dA-Za-z_-]*)?[\dA-Za-z])$/u;
 const iftttWebhookSendInit: RequestInit = {

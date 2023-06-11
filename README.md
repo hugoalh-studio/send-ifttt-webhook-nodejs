@@ -65,7 +65,7 @@ import IFTTTWebhook from "@hugoalh/send-ifttt-webhook";// Default Import (Class 
 #### Interface / Type
 
 - ```ts
-  type IFTTTWebhookStandardPayload = {
+  interface IFTTTWebhookStandardPayload = {
     value1?: string;
     value2?: string;
     value3?: string;
